@@ -137,22 +137,37 @@
     return [self.privateItems copy];
 }
 
+#pragma mark 增加一条数据
 - (BNRItem *)createItem
 {
-    BNRItem *item = [[BNRItem alloc] init];
-
+    // 通过context对象插入一个针对BNRItem对象
+    
+    double order;
+    if ([self.allItems count] == 0) {
+        order = 1.0;
+    }
+    else {
+        order = [[self.privateItems lastObject] orderingValue] + 1.0;
+    }
+    NSLog(@"Adding after %@ items, order = %.2f", @(self.privateItems.count), order);
+    
+    BNRItem *item = [NSEntityDescription insertNewObjectForEntityForName:@"BNRItem"
+                                                  inManagedObjectContext:self.context];
+    item.orderingValue = order;
+    
     [self.privateItems addObject:item];
 
     return item;
 }
 
+#pragma mark 删除一条数据
 - (void)removeItem:(BNRItem *)item
 {
     NSString *key = item.itemKey;
     if (key) {
         [[BNRImageStore sharedStore] deleteImageForKey:key];
     }
-
+    [self.context deleteObject:item];
     [self.privateItems removeObjectIdenticalTo:item];
 }
 
