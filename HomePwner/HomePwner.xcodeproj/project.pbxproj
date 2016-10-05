@@ -29,6 +29,7 @@
 		520AA4CB187E42150048F174 /* BNRItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 520AA4CA187E42150048F174 /* BNRItemCell.xib */; };
 		520AA4CE187E47050048F174 /* BNRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 520AA4CD187E47050048F174 /* BNRImageViewController.m */; };
 		F485DA8E1D9FE0F100BE1021 /* Homepwner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F485DA8C1D9FE0F100BE1021 /* Homepwner.xcdatamodeld */; };
+		F485DA921DA48C1600BE1021 /* BNRImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F485DA911DA48C1600BE1021 /* BNRImageTransformer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		520AA4CC187E47050048F174 /* BNRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageViewController.h; sourceTree = "<group>"; };
 		520AA4CD187E47050048F174 /* BNRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageViewController.m; sourceTree = "<group>"; };
 		F485DA8D1D9FE0F100BE1021 /* Homepwner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Homepwner.xcdatamodel; sourceTree = "<group>"; };
+		F485DA901DA48C1600BE1021 /* BNRImageTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageTransformer.h; sourceTree = "<group>"; };
+		F485DA911DA48C1600BE1021 /* BNRImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageTransformer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				F485DA8C1D9FE0F100BE1021 /* Homepwner.xcdatamodeld */,
+				F485DA901DA48C1600BE1021 /* BNRImageTransformer.h */,
+				F485DA911DA48C1600BE1021 /* BNRImageTransformer.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 				520AA48B187C4EC00048F174 /* main.m in Sources */,
 				520AA48F187C4EC00048F174 /* BNRAppDelegate.m in Sources */,
 				F485DA8E1D9FE0F100BE1021 /* Homepwner.xcdatamodeld in Sources */,
+				F485DA921DA48C1600BE1021 /* BNRImageTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
