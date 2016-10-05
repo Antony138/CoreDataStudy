@@ -93,10 +93,14 @@
 
 - (BOOL)saveChanges
 {
-    NSString *path = [self itemArchivePath];
-
-    // Returns YES on success
-    return [NSKeyedArchiver archiveRootObject:self.privateItems toFile:path];
+    NSError *error;
+    // 利用contex对象保存数据
+    BOOL successful = [self.context save:&error];
+    if (!successful) {
+        NSLog(@"Error saving: %@", [error localizedDescription]);
+    }
+    
+    return successful;
 }
 
 - (NSArray *)allItems
