@@ -75,6 +75,8 @@
         // 创建NSManagedObjectContext对象
         _context = [[NSManagedObjectContext alloc] init];
         _context.persistentStoreCoordinator = psc;
+        
+        [self loadAllItems];
     }
     return self;
 }
@@ -91,6 +93,7 @@
     return [documentDirectory stringByAppendingPathComponent:@"store.data"];
 }
 
+#pragma mark 保存数据
 - (BOOL)saveChanges
 {
     NSError *error;
@@ -101,6 +104,32 @@
     }
     
     return successful;
+}
+
+#pragma mark 载入数据
+- (void)loadAllItems {
+    if (!self.privateItems) {
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        
+        NSEntityDescription *e = [NSEntityDescription entityForName:@"BNRItem"
+                                             inManagedObjectContext:self.context];
+        request.entity = e;
+        
+        NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"orderingValue"
+                                                             ascending:YES];
+        
+        request.sortDescriptors = @[sd];
+        
+        NSError *error;
+        NSArray *result = [self.context executeFetchRequest:request error:&error];
+        
+        if (!result) {
+            [NSException raise:@"Fetch failed"
+                        format:@"Reason: %@", [error localizedDescription]];
+        }
+        
+        self.privateItems = [[NSMutableArray alloc] initWithArray:result];
+    }
 }
 
 - (NSArray *)allItems
