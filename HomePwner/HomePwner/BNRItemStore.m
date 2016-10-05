@@ -10,9 +10,15 @@
 #import "BNRItem.h"
 #import "BNRImageStore.h"
 
+@import CoreData;
+
 @interface BNRItemStore ()
 
 @property (nonatomic) NSMutableArray *privateItems;
+
+@property (nonatomic, strong) NSMutableArray *allAssetTypes;
+@property (nonatomic, strong) NSManagedObjectContext *context;
+@property (nonatomic, strong) NSManagedObjectModel *model;
 
 @end
 
@@ -45,13 +51,30 @@
 {
     self = [super init];
     if (self) {
+        // 读取Homepwner.xcdatamodeld
+        _model = [NSManagedObjectModel mergedModelFromBundles:nil];
+        
+        NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
+        
+        // 设置SQLite文件路径
         NSString *path = [self itemArchivePath];
-        _privateItems = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-
-        // If the array hadn't been saved previously, create a new empty one
-        if (!_privateItems) {
-            _privateItems = [[NSMutableArray alloc] init];
+        NSURL *storeURL = [NSURL fileURLWithPath:path];
+        
+        NSError *error = nil;
+        
+        if (![psc addPersistentStoreWithType:NSSQLiteStoreType
+                               configuration:nil
+                                         URL:storeURL
+                                     options:nil
+                                       error:&error]) {
+            @throw [NSException exceptionWithName:@"OpenFailure"
+                                           reason:[error localizedDescription]
+                                         userInfo:nil];
         }
+        
+        // 创建NSManagedObjectContext对象
+        _context = [[NSManagedObjectContext alloc] init];
+        _context.persistentStoreCoordinator = psc;
     }
     return self;
 }
@@ -65,7 +88,7 @@
     // Get the one document directory from that list
     NSString *documentDirectory = [documentDirectories firstObject];
 
-    return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+    return [documentDirectory stringByAppendingPathComponent:@"store.data"];
 }
 
 - (BOOL)saveChanges
