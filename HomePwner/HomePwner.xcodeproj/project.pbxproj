@@ -30,6 +30,7 @@
 		F485DA8E1D9FE0F100BE1021 /* Homepwner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F485DA8C1D9FE0F100BE1021 /* Homepwner.xcdatamodeld */; };
 		F485DA921DA48C1600BE1021 /* BNRImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F485DA911DA48C1600BE1021 /* BNRImageTransformer.m */; };
 		F485DA951DA4A7E300BE1021 /* BNRItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F485DA941DA4A7E300BE1021 /* BNRItem.m */; };
+		F485DA981DA5E8EA00BE1021 /* BNRAssetTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F485DA971DA5E8EA00BE1021 /* BNRAssetTypeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		F485DA911DA48C1600BE1021 /* BNRImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageTransformer.m; sourceTree = "<group>"; };
 		F485DA931DA4A7E300BE1021 /* BNRItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRItem.h; sourceTree = "<group>"; };
 		F485DA941DA4A7E300BE1021 /* BNRItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRItem.m; sourceTree = "<group>"; };
+		F485DA961DA5E8EA00BE1021 /* BNRAssetTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRAssetTypeViewController.h; sourceTree = "<group>"; };
+		F485DA971DA5E8EA00BE1021 /* BNRAssetTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRAssetTypeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +157,8 @@
 				520AA4BC187C87C50048F174 /* BNRDetailViewController.h */,
 				520AA4BD187C87C50048F174 /* BNRDetailViewController.m */,
 				520AA4BE187C87C50048F174 /* BNRDetailViewController.xib */,
+				F485DA961DA5E8EA00BE1021 /* BNRAssetTypeViewController.h */,
+				F485DA971DA5E8EA00BE1021 /* BNRAssetTypeViewController.m */,
 				520AA490187C4EC00048F174 /* Images.xcassets */,
 				520AA485187C4EC00048F174 /* Supporting Files */,
 			);
@@ -304,6 +309,7 @@
 			files = (
 				520AA4BF187C87C50048F174 /* BNRDetailViewController.m in Sources */,
 				520AA4C9187E3DB20048F174 /* BNRItemCell.m in Sources */,
+				F485DA981DA5E8EA00BE1021 /* BNRAssetTypeViewController.m in Sources */,
 				520AA4CE187E47050048F174 /* BNRImageViewController.m in Sources */,
 				520AA4B5187C4FC00048F174 /* BNRItemStore.m in Sources */,
 				520AA4C3187CAA690048F174 /* BNRImageStore.m in Sources */,
