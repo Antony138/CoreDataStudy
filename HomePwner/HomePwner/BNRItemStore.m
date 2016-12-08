@@ -73,8 +73,11 @@
         }
         
         // 创建NSManagedObjectContext对象
-        _context = [[NSManagedObjectContext alloc] init];
+        // NSPrivateQueueConcurrencyType: Core Data中的多线程处理
+        _context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//        _context = [[NSManagedObjectContext alloc] init];
         _context.persistentStoreCoordinator = psc;
+        
         
         [self loadAllItems];
     }
@@ -96,31 +99,67 @@
 #pragma mark 保存数据
 - (BOOL)saveChanges
 {
-    NSError *error;
-    // 利用contex对象保存数据
-    BOOL successful = [self.context save:&error];
-    if (!successful) {
-        NSLog(@"Error saving: %@", [error localizedDescription]);
-    }
+   __block BOOL successful = NO;
+    
+    #pragma mark 步骤:利用contex的save:方法保存数据
+    // performBlock:异步执行？
+    // CoreData的多线程：在后台执行保存操作，提高效率？
+    [self.context performBlock:^{
+    
+        NSError *error;
+        // 利用contex对象保存数据
+        successful = [self.context save:&error];
+        if (!successful) {
+            NSLog(@"Error saving: %@", [error localizedDescription]);
+        }
+    }];
+    
+    [self printDatabaseStatistics];
+    NSLog(@"数量已经打印完成");
     
     return successful;
+}
+
+// 获取对象数量
+- (void)printDatabaseStatistics {
+    NSUInteger itemCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRItem"]
+                                                        error:nil];
+    
+    NSLog(@"总共有%@的BNRItem对象", @(itemCount));
+    
+    NSUInteger typeCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRAssetType"] error:nil];
+    NSLog(@"总共有%@种Type", @(typeCount));
 }
 
 #pragma mark 载入数据
 - (void)loadAllItems {
     if (!self.privateItems) {
+        
+        // 载入数据-步骤1:先创建NSFetchRequest对象，表示要取回什么数据(可用NSSortDescriptor、NSPredicate排序、过滤数据)
+        
+        #pragma mark CoreData步骤:取回数据步骤1:创建NSFetchRequest对象，表明要取回什么数据(可用NSSortDescriptor、NSPredicate排序、过滤数据)
+        
+        // 可以直接传入EntityName创建NSFetchRequest对象吧?(这样就少一步了)
+        //        NSFetchRequest *r = [[NSFetchRequest alloc] initWithEntityName:@"BNRItem"];
+        
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         
         NSEntityDescription *e = [NSEntityDescription entityForName:@"BNRItem"
                                              inManagedObjectContext:self.context];
         request.entity = e;
         
+        // 定义拿回数据的排序
+        // 另外，还可以用NSPredicate获取(过滤出)指定的数据
         NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"orderingValue"
                                                              ascending:YES];
         
         request.sortDescriptors = @[sd];
         
         NSError *error;
+        
+        #pragma mark CoreData步骤:取回数据步骤2:利用NSManagedObjectContext的fetch方法
+        // 载入数据-步骤2:执行contex的executeFetchRequest:方法(传入前面创建的NSFetchRequest对象)
+        // 主要，返回对象类型是NSArry
         NSArray *result = [self.context executeFetchRequest:request error:&error];
         
         if (!result) {
@@ -128,6 +167,7 @@
                         format:@"Reason: %@", [error localizedDescription]];
         }
         
+        // 赋值给自定义array
         self.privateItems = [[NSMutableArray alloc] initWithArray:result];
     }
 }
@@ -151,6 +191,7 @@
     }
     NSLog(@"Adding after %@ items, order = %.2f", @(self.privateItems.count), order);
     
+#pragma mark CoreData步骤:插入数据:利用NSEntityDescription的insertNewObject
     BNRItem *item = [NSEntityDescription insertNewObjectForEntityForName:@"BNRItem"
                                                   inManagedObjectContext:self.context];
     item.orderingValue = order;
