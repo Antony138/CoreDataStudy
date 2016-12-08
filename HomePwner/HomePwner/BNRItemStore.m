@@ -122,13 +122,16 @@
 
 // 获取对象数量
 - (void)printDatabaseStatistics {
-    NSUInteger itemCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRItem"]
-                                                        error:nil];
-    
-    NSLog(@"总共有%@的BNRItem对象", @(itemCount));
-    
-    NSUInteger typeCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRAssetType"] error:nil];
-    NSLog(@"总共有%@种Type", @(typeCount));
+    // 从database中获取数量，也放到非主线程中
+    [self.context performBlock:^{
+        NSUInteger itemCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRItem"]
+                                                            error:nil];
+        
+        NSLog(@"总共有%@的BNRItem对象", @(itemCount));
+        
+        NSUInteger typeCount = [self.context countForFetchRequest:[NSFetchRequest fetchRequestWithEntityName:@"BNRAssetType"] error:nil];
+        NSLog(@"总共有%@种Type", @(typeCount));
+    }];
 }
 
 #pragma mark 载入数据
@@ -140,7 +143,7 @@
         #pragma mark CoreData步骤:取回数据步骤1:创建NSFetchRequest对象，表明要取回什么数据(可用NSSortDescriptor、NSPredicate排序、过滤数据)
         
         // 可以直接传入EntityName创建NSFetchRequest对象吧?(这样就少一步了)
-        //        NSFetchRequest *r = [[NSFetchRequest alloc] initWithEntityName:@"BNRItem"];
+//        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BNRItem"];
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         
