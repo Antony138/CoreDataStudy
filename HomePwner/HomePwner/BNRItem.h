@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSData *thumbnailData;
 @property (nonatomic) int valueInDollars;
+// 不是自定义对象，就无需要实作为NSManagedObject的子类，直接是NSManagedObject类型就可以了
 @property (nonatomic, strong) NSManagedObject *assetType;
 
 - (void)setThumbnailFromImage:(UIImage *)image;

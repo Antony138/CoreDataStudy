@@ -48,6 +48,8 @@
     UIGraphicsEndImageContext();
 }
 
+// CoreData有数据插入时，会调用这个方法
+// 此时就生成一个key
 - (void)awakeFromInsert {
     [super awakeFromInsert];
     

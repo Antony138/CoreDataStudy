@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Big Nerd Ranch. All rights reserved.
 //
 
+// 斯坦福大学的教学视频中，用到了NSFetchedResultsController类，而这个项目没有用到。
+
 #import "BNRItemStore.h"
 #import "BNRItem.h"
 #import "BNRImageStore.h"
@@ -52,6 +54,7 @@
     self = [super init];
     if (self) {
         // 读取Homepwner.xcdatamodeld
+        // NSManagedObjectModel的实例化方法有很多种
         _model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
         NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
